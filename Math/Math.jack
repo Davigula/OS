@@ -1,0 +1,164 @@
+class Math
+{
+    static Array twoToThe;
+    
+    function void init()
+    {
+        var int i, pow;
+        let twoToThe = Array.new(16);
+        
+        let pow = 1;
+        while (i < 16)
+        {
+            let twoToThe[i] = pow;
+            let pow = pow + pow;
+            let i = i + 1;
+        } 
+        return;
+    }
+    
+    function int multiply(int x, int y)
+    {
+        var int sum, shifted, i;
+        let shifted = x;
+        
+        while (i < 16)
+        {
+            if (twoToThe[i] & y)
+            {
+                let sum = sum + shifted;
+            }
+            let shifted = shifted + shifted;
+            let i = i + 1;
+        }
+        
+        return sum;
+    }
+
+    function int divide(int x, int y)
+    {
+        var int i, q, y_abs, x_abs, q_abs;
+        let y_abs = Math.abs(y);
+        let x_abs = Math.abs(x);
+        let q_abs = Math.abs(q);
+        if(y_abs>x_abs)
+        {
+            return 0;
+        }
+        let q = Math.divide(x, 2*y);
+                
+        if((x_abs-(2*q_abs*y_abs))<y_abs)
+        {
+            return 2*q;
+        }
+        else
+        {
+            if((x<0 & y>0) | (x>0 & y<0) )
+            {
+                return 2*q-1;
+            }else
+            {
+                return 2*q+1;
+            }
+        }
+    }
+
+    function int log(int x) {
+        var int i;
+        let i = 0;
+
+        while(Math.divide(x,2)>0){
+            let x = x/2;
+            let i = i+1; 
+        }   
+        return i;
+        
+    }
+
+    function int modulo(int dividend, int divisor) {
+        var int remainder;
+        
+        // Inicijalizacija ostataka na vrednost delioca
+        let remainder = dividend;
+        
+        // Dok je ostatak veći ili jednak deliocu
+        while (~(remainder < divisor)) {
+            // Oduzimamo delilac od ostatka
+            let remainder = remainder - divisor;
+        }
+        
+        // Konačni ostatak predstavlja vrednost koja je ostala u ostatku
+        return remainder;
+    }
+
+    function int pow(int a, int n) {
+        var int y,r,q;
+        
+        // Inicijalizacija ostataka na vrednost delioca
+        let y = 1;
+
+        let q = n;
+        while(~(q=0)){
+            let q = Math.divide(n,2);
+            let r = Math.modulo(n,2);
+            if(r=1){
+                let y = y*a;
+            }
+            let n = q;
+            let a = a * a;
+
+        }
+        // Konačni ostatak predstavlja vrednost koja je ostala u ostatku
+        return y;
+    }   
+
+    function int sqrt(int x)
+    {
+        var int i, y, pow;
+        
+        if (x < 0)
+        {
+            return 0;
+        }
+        
+        let i = 7;
+        while (i > -1)
+        {
+            let pow = Math.multiply(y + twoToThe[i], y + twoToThe[i]);
+            if (pow < x)
+            {
+                let y = y + twoToThe[i];
+            }
+            let i = i - 1;
+        }
+        
+        return y;
+    }
+    
+    function int abs(int x)
+    {
+        if (x < 0)
+        {
+            return -x;
+        }
+        return x;
+    }
+    
+    function int min(int x, int y)
+    {
+        if (x < y)
+        {
+            return x;
+        }
+        return y;
+    }
+    
+    function int max(int x, int y)
+    {
+        if (x > y)
+        {
+            return x;
+        }
+        return y;
+    }
+}
