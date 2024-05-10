@@ -1,0 +1,118 @@
+class Tetris
+{
+    field int x, y, kut, vel_bloka, d, udalj_bloka;
+    
+    constructor Tetris new() {
+        let x = 512 / 2;
+        let y = 256 / 2;
+        let vel_bloka = 10;
+        let d = 3;
+        let kut = 0; 
+        let udalj_bloka = vel_bloka + d;
+        do loop();
+        return this;
+    }
+
+    method void nula() {
+        do Screen.drawRectangle(x - (vel_bloka/2), y - (vel_bloka/2), x + (vel_bloka/2), y + (vel_bloka/2)); // base
+        do Screen.drawRectangle(x - (vel_bloka/2), y - (vel_bloka/2) - udalj_bloka, x + (vel_bloka/2), y + (vel_bloka/2) - udalj_bloka);
+        do Screen.drawRectangle(x - (vel_bloka/2), y - (vel_bloka/2) - udalj_bloka - udalj_bloka, x + (vel_bloka/2), y + (vel_bloka/2) - udalj_bloka- udalj_bloka);
+        do Screen.drawRectangle(x - (vel_bloka/2) + udalj_bloka, y - (vel_bloka/2), x + (vel_bloka/2) + udalj_bloka, y + (vel_bloka/2));
+        return;   
+    }
+
+    method void devet_nula() {
+        do Screen.drawRectangle(x - (vel_bloka/2), y - (vel_bloka/2), x + (vel_bloka/2), y + (vel_bloka/2)); // base
+        do Screen.drawRectangle(x - (vel_bloka/2) + udalj_bloka, y - (vel_bloka/2), x + (vel_bloka/2) + udalj_bloka, y + (vel_bloka/2)); 
+        do Screen.drawRectangle(x - (vel_bloka/2) + udalj_bloka + udalj_bloka, y - (vel_bloka/2), x + (vel_bloka/2) + udalj_bloka + udalj_bloka, y + (vel_bloka/2));
+        do Screen.drawRectangle(x - (vel_bloka/2), y - (vel_bloka/2) + udalj_bloka, x + (vel_bloka/2), y + (vel_bloka/2) + udalj_bloka);
+        return;   
+    }
+
+    method void jedan_osam_nula() {
+        do Screen.drawRectangle(x - (vel_bloka/2), y - (vel_bloka/2), x + (vel_bloka/2), y + (vel_bloka/2)); // base
+        do Screen.drawRectangle(x - (vel_bloka/2), y - (vel_bloka/2) + udalj_bloka, x + (vel_bloka/2), y + (vel_bloka/2) + udalj_bloka);
+        do Screen.drawRectangle(x - (vel_bloka/2), y - (vel_bloka/2) + udalj_bloka+ udalj_bloka, x + (vel_bloka/2), y + (vel_bloka/2) + udalj_bloka+ udalj_bloka);
+        do Screen.drawRectangle(x - (vel_bloka/2) - udalj_bloka, y - (vel_bloka/2), x + (vel_bloka/2) - udalj_bloka, y + (vel_bloka/2));
+        return;   
+    }
+
+    method void dva_sedam_nula() {
+        do Screen.drawRectangle(x - (vel_bloka/2), y - (vel_bloka/2), x + (vel_bloka/2), y + (vel_bloka/2)); // base
+        do Screen.drawRectangle(x - (vel_bloka/2) - udalj_bloka, y - (vel_bloka/2), x + (vel_bloka/2) - udalj_bloka, y + (vel_bloka/2)); 
+        do Screen.drawRectangle(x - (vel_bloka/2) - udalj_bloka- udalj_bloka, y - (vel_bloka/2), x + (vel_bloka/2) - udalj_bloka- udalj_bloka, y + (vel_bloka/2));
+        do Screen.drawRectangle(x - (vel_bloka/2), y - (vel_bloka/2) - udalj_bloka, x + (vel_bloka/2), y + (vel_bloka/2) - udalj_bloka);
+        return;   
+        
+    }
+
+    method void loop () {
+        while (~(Keyboard.keyPressed() = 140)) 
+        {
+            if (Keyboard.keyPressed() = 130)  
+            {
+                if ((x - udalj_bloka) > (2*udalj_bloka)){
+                    let x = x - udalj_bloka;
+                    do Sys.wait(50);
+                }
+            }
+            if (Keyboard.keyPressed() = 132)  
+            {
+                if ( (x + udalj_bloka) < (512 - (2*udalj_bloka))){
+                    let x = x + udalj_bloka;
+                    do Sys.wait(50);
+                }
+            }
+            if (Keyboard.keyPressed() = 131) 
+            {
+                if ((y - udalj_bloka) > (4*udalj_bloka)){
+                    let y = y - udalj_bloka;
+                    do Sys.wait(50);
+                }
+            }
+            if (Keyboard.keyPressed() = 133) 
+            {
+                if (y + udalj_bloka < (256 - (4*udalj_bloka))){
+                    let y = y + udalj_bloka;
+                    do Sys.wait(50);
+                }
+            }
+            if ((Keyboard.keyPressed() = 82)) {
+                let kut = kut + 1;
+                if (kut = 4){
+                    let kut = 0;
+                }
+                do Sys.wait(50);
+            }
+            
+            do render();
+        }
+        do Sys.wait(1000);
+        do Screen.clearScreen();
+        return;
+    }
+
+    method void render()
+    {
+        do Screen.clearScreen();
+        if (kut = 0){
+            do nula();
+        }
+        if (kut = 1){
+            do devet_nula();
+        }
+        if (kut = 2){
+            do jedan_osam_nula();
+        }
+        if (kut = 3){
+            do dva_sedam_nula();
+        }
+        do Sys.wait(50);
+        return;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}
